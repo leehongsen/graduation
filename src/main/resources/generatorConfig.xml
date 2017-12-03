@@ -6,36 +6,34 @@
 <generatorConfiguration>
     <!-- <classPathEntry location="/Program Files/IBM/SQLLIB/java/db2java.zip"
         /> -->
-    <context id="DB2Tables" targetRuntime="MyBatis3">
-        <commentGenerator>
-            <property name="suppressAllComments" value="true" />
-            <property name="suppressDate" value="true" />
-        </commentGenerator>
+    <properties resource="application.properties"/>
+    <context id="Mysql" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+
+        <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
+            <property name="mappers" value="com.example.graduation.util.MyMapper"/>
+        </plugin>
+
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
                         connectionURL="jdbc:mysql://localhost:3306/graduation" userId="root"
                         password="">
         </jdbcConnection>
 
-        <javaTypeResolver>
-            <property name="forceBigDecimals" value="false" />
-        </javaTypeResolver>
-
-        <javaModelGenerator targetPackage="com.example.graduation.pojo"
-                            targetProject=".\src\main\java">
+        <javaModelGenerator targetPackage="com.example.graduation.pojo" targetProject="src/main/java">
             <property name="enableSubPackages" value="false" />
             <property name="trimStrings" value="true" />
         </javaModelGenerator>
 
-        <sqlMapGenerator targetPackage="mapper"
-                         targetProject=".\src\main\resources">
+        <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources">
             <property name="enableSubPackages" value="false" />
         </sqlMapGenerator>
 
-        <javaClientGenerator type="XMLMAPPER"
-                             targetPackage="com.example.graduation.dao"
-                             targetProject=".\src\main\java">
+        <javaClientGenerator targetPackage="com.example.graduation.dao" targetProject="src/main/java"
+                             type="XMLMAPPER">
             <property name="enableSubPackages" value="false" />
         </javaClientGenerator>
+
 
         <!--有多少張表重複多少次-->
         <!--1-->

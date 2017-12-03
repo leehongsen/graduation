@@ -1,5 +1,6 @@
-package com.example.graduation.service;
+package com.example.graduation.service.impl;
 
+import com.example.graduation.service.IService;
 import org.springframework.beans.factory.annotation.Autowired;
 import tk.mybatis.mapper.common.Mapper;
 

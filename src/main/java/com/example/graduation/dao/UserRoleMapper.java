@@ -1,17 +1,7 @@
 package com.example.graduation.dao;
 
-import com.example.graduation.pojo.UserRoleExample;
-import com.example.graduation.pojo.UserRoleKey;
-import java.util.List;
+import com.example.graduation.pojo.UserRole;
+import com.example.graduation.util.MyMapper;
 
-public interface UserRoleMapper {
-    long countByExample(UserRoleExample example);
-
-    int deleteByPrimaryKey(UserRoleKey key);
-
-    int insert(UserRoleKey record);
-
-    int insertSelective(UserRoleKey record);
-
-    List<UserRoleKey> selectByExample(UserRoleExample example);
+public interface UserRoleMapper extends MyMapper<UserRole> {
 }
