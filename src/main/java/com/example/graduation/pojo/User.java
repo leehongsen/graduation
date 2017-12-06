@@ -1,10 +1,12 @@
 package com.example.graduation.pojo;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Table(name = "t_user")
-public class User {
+public class User implements Serializable{
     @Id
+    @Column(name="userId")
     private Integer userId;
 
     private String username;
