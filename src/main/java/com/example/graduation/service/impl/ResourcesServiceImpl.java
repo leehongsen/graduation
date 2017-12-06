@@ -5,7 +5,6 @@ import com.example.graduation.pojo.Resources;
 import com.example.graduation.service.ResourcesService;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
 import java.util.List;
