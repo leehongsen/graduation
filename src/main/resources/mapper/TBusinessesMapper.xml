@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.graduation.dao.TBusinessesMapper">
+  <resultMap id="BaseResultMap" type="com.example.graduation.pojo.TBusinesses">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="turnover" jdbcType="DOUBLE" property="turnover" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="time" jdbcType="VARCHAR" property="time" />
+    <result column="sort" jdbcType="VARCHAR" property="sort" />
+    <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="deliveryTime" jdbcType="VARCHAR" property="deliverytime" />
+    <result column="score" jdbcType="DOUBLE" property="score" />
+    <result column="serviceScore" jdbcType="DOUBLE" property="servicescore" />
+    <result column="foodScore" jdbcType="DOUBLE" property="foodscore" />
+    <result column="rankRate" jdbcType="DOUBLE" property="rankrate" />
+    <result column="minPrice" jdbcType="DOUBLE" property="minprice" />
+    <result column="deliveryPrice" jdbcType="DOUBLE" property="deliveryprice" />
+    <result column="ratingCount" jdbcType="INTEGER" property="ratingcount" />
+    <result column="sellCount" jdbcType="INTEGER" property="sellcount" />
+    <result column="bulletin" jdbcType="VARCHAR" property="bulletin" />
+  </resultMap>
+</mapper>

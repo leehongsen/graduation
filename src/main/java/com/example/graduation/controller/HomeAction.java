@@ -1,7 +1,7 @@
 package com.example.graduation.controller;
 
 
-import com.example.graduation.pojo.User;
+import com.example.graduation.pojo.TUser;
 import com.example.graduation.util.Encrypt;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -14,8 +14,12 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Map;
 
 @Controller
@@ -27,7 +31,7 @@ public class HomeAction {
     }
 
     @RequestMapping(value="/login",method = RequestMethod.POST)
-    public String login(HttpServletRequest request, User user){
+    public String login(HttpServletRequest request, TUser user){
         if (StringUtils.isEmpty(user.getUsername()) || StringUtils.isEmpty(user.getPassword())) {
             request.setAttribute("msg", "用户名或密码不能为空！");
             return "login";
@@ -37,8 +41,8 @@ public class HomeAction {
         UsernamePasswordToken token=new UsernamePasswordToken(user.getUsername(), user.getPassword());
         try {
             subject.login(token);
-            return "redirect:index";
-        }catch (LockedAccountException lae) {
+            return "redirect:usersPage";
+        } catch (LockedAccountException lae) {
             token.clear();
             request.setAttribute("msg", "用户已经被锁定不能登录，请与管理员联系！");
             return "login";
@@ -49,9 +53,20 @@ public class HomeAction {
         }
     }
 
-    @RequestMapping(value = {"/index",""})
-    public String index(){
-        return "index";
+    @RequestMapping(value = {"/usersPage",""})
+    public String usersPage(){
+        return "user/users";
     }
     /*控制页面跳转 end*/
+
+    @RequestMapping("/seller")
+    @ResponseBody
+    public Map<String,String> seller(HttpServletRequest request,HttpServletResponse response){
+        String Origin=request.getHeader("Origin");
+        response.addHeader("Access-Control-Allow-Origin",Origin);
+        Map<String,String> map=new HashMap<>();
+        map.put("name","肯德基");
+        map.put("addr","重庆");
+        return map;
+    }
 }

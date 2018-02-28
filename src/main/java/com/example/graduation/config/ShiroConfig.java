@@ -1,7 +1,8 @@
 package com.example.graduation.config;
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
-import com.example.graduation.pojo.Resources;
+import com.github.pagehelper.util.StringUtil;
+import com.example.graduation.pojo.TResources;
 import com.example.graduation.service.ResourcesService;
 import com.example.graduation.shiro.MyShiroRealm;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
@@ -18,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import tk.mybatis.mapper.util.StringUtil;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -40,6 +40,9 @@ public class ShiroConfig {
 
     @Value("${spring.redis.timeout}")
     private int timeout;
+
+    @Value("${spring.redis.password}")
+    private String password;
 
     @Bean
     public static LifecycleBeanPostProcessor getLifecycleBeanPostProcessor() {
@@ -75,7 +78,7 @@ public class ShiroConfig {
         // 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
         shiroFilterFactoryBean.setLoginUrl("/login");
         // 登录成功后要跳转的链接
-        shiroFilterFactoryBean.setSuccessUrl("/index");
+        shiroFilterFactoryBean.setSuccessUrl("/usersPage");
         //未授权界面;
         shiroFilterFactoryBean.setUnauthorizedUrl("/403");
         //拦截器.
@@ -87,17 +90,16 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/js/**","anon");
         filterChainDefinitionMap.put("/img/**","anon");
         filterChainDefinitionMap.put("/plugins/**","anon");
-        filterChainDefinitionMap.put("/vue-dev/**","anon");
         filterChainDefinitionMap.put("/font-awesome/**","anon");
         //<!-- 过滤链定义，从上向下顺序执行，一般将 /**放在最为下边 -->:这是一个坑呢，一不小心代码就不好使了;
         //<!-- authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问-->
         //自定义加载权限资源关系
-        List<Resources> resourcesList = resourcesService.getAll();
-         for(Resources resources:resourcesList){
+        List<TResources> resourcesList = resourcesService.getAll();
+         for(TResources resources:resourcesList){
 
-            if (StringUtil.isNotEmpty(resources.getResUrl())) {
-                String permission = "perms[" + resources.getResUrl()+ "]";
-                filterChainDefinitionMap.put(resources.getResUrl(),permission);
+            if (StringUtil.isNotEmpty(resources.getResurl())) {
+                String permission = "perms[" + resources.getResurl()+ "]";
+                filterChainDefinitionMap.put(resources.getResurl(),permission);
             }
         }
         filterChainDefinitionMap.put("/**", "authc");
@@ -114,7 +116,7 @@ public class ShiroConfig {
         //设置realm.
         securityManager.setRealm(myShiroRealm());
         // 自定义缓存实现 使用redis
-        //securityManager.setCacheManager(cacheManager());
+        securityManager.setCacheManager(cacheManager());
         // 自定义session管理 使用redis
         securityManager.setSessionManager(sessionManager());
         return securityManager;
@@ -169,7 +171,7 @@ public class ShiroConfig {
         redisManager.setPort(port);
         redisManager.setExpire(1800);// 配置缓存过期时间
         redisManager.setTimeout(timeout);
-        // redisManager.setPassword(password);
+       // redisManager.setPassword(password);
         return redisManager;
     }
 

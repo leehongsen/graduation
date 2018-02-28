@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.graduation.dao.UserinfoMapper">
+  <resultMap id="BaseResultMap" type="com.example.graduation.pojo.Userinfo">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="userId" jdbcType="INTEGER" property="userid" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="enable" jdbcType="VARCHAR" property="enable" />
+    <result column="roleId" jdbcType="INTEGER" property="roleid" />
+    <result column="roleDes" jdbcType="VARCHAR" property="roledes" />
+    <result column="resourcesId" jdbcType="INTEGER" property="resourcesid" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="resUrl" jdbcType="VARCHAR" property="resurl" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="parentId" jdbcType="INTEGER" property="parentid" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+  </resultMap>
+</mapper>

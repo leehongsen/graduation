@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.graduation.dao.TGoodsMapper">
+  <resultMap id="BaseResultMap" type="com.example.graduation.pojo.TGoods">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="business_id" jdbcType="INTEGER" property="businessId" />
+    <result column="limit_num" jdbcType="INTEGER" property="limitNum" />
+    <result column="g_pic" jdbcType="VARCHAR" property="gPic" />
+  </resultMap>
+</mapper>
