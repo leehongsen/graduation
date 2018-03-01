@@ -4,21 +4,42 @@ import com.example.graduation.dao.TUserRoleMapper;
 import com.example.graduation.pojo.TUser;
 import com.example.graduation.pojo.TUserRole;
 import com.example.graduation.service.UserService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
+import tk.mybatis.mapper.util.StringUtil;
 
 import javax.annotation.Resource;
 import java.util.List;
 
 @Service("userService")
 public class UserServiceImpl extends BaseService<TUser> implements UserService{
-    /**
-     *
-     */
+
     @Resource
     private TUserRoleMapper userRoleMapper;
+
+    @Override
+    public PageInfo<TUser> selectByPage(TUser user, int start, int length) {
+        int page = start/length+1;
+        Example example = new Example(TUser.class);
+        Example.Criteria criteria = example.createCriteria();
+        if (StringUtil.isNotEmpty(user.getUsername())) {
+            criteria.andLike("username", "%" + user.getUsername() + "%");
+        }
+        if (user.getUserid() != null) {
+            criteria.andEqualTo("id", user.getUserid());
+        }
+        if (StringUtil.isNotEmpty(user.getEnable())) {
+            criteria.andEqualTo("enable", user.getEnable());
+        }
+        //分页查询
+        PageHelper.startPage(page, length);
+        List<TUser> userList = selectByExample(example);
+        return new PageInfo<>(userList);
+    }
 
     public TUser selectByUsername(String username) {
         Example example = new Example(com.example.graduation.pojo.TUser.class);

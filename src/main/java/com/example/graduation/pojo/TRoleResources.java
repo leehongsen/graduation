@@ -12,7 +12,7 @@ public class TRoleResources implements Serializable {
 
     @Id
     @Column(name = "resourcesId")
-    private Integer resourcesid;
+    private String resourcesid;
 
     /**
      * @return roleId
@@ -31,14 +31,14 @@ public class TRoleResources implements Serializable {
     /**
      * @return resourcesId
      */
-    public Integer getResourcesid() {
+    public String getResourcesid() {
         return resourcesid;
     }
 
     /**
      * @param resourcesid
      */
-    public void setResourcesid(Integer resourcesid) {
+    public void setResourcesid(String resourcesid) {
         this.resourcesid = resourcesid;
     }
 }
