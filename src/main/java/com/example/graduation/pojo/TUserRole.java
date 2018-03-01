@@ -1,16 +1,18 @@
 package com.example.graduation.pojo;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Table(name = "t_user_role")
-public class TUserRole {
+public class TUserRole implements Serializable {
+    private static final long serialVersionUID = -8503969225290617718L;
     @Id
     @Column(name = "userId")
     private Integer userid;
 
     @Id
     @Column(name = "roleId")
-    private Integer roleid;
+    private String roleid;
 
     /**
      * @return userId
@@ -29,14 +31,14 @@ public class TUserRole {
     /**
      * @return roleId
      */
-    public Integer getRoleid() {
+    public String getRoleid() {
         return roleid;
     }
 
     /**
      * @param roleid
      */
-    public void setRoleid(Integer roleid) {
+    public void setRoleid(String roleid) {
         this.roleid = roleid;
     }
 }

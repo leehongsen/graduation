@@ -1,8 +1,11 @@
 package com.example.graduation.pojo;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
-public class Userinfo {
+public class Userinfo implements Serializable {
+    private static final long serialVersionUID = -55876255663489642L;
+
     @Column(name = "userId")
     private Integer userid;
 

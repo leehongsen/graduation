@@ -1,10 +1,12 @@
 package com.example.graduation.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
 
 @Table(name = "t_ratings")
-public class TRatings {
+public class TRatings implements Serializable {
+    private static final long serialVersionUID = 2017405341294299977L;
     /**
      * 评价编号
      */

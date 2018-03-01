@@ -1,9 +1,11 @@
 package com.example.graduation.pojo;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Table(name = "t_goods")
-public class TGoods {
+public class TGoods implements Serializable {
+    private static final long serialVersionUID = 5329309648197297431L;
     /**
      * 商品类型编号
      */

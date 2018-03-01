@@ -1,9 +1,11 @@
 package com.example.graduation.pojo;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Table(name = "t_resources")
-public class TResources {
+public class TResources implements Serializable {
+    private static final long serialVersionUID = -9117051685776067818L;
     @Id
     @Column(name = "resourcesId")
     private Integer resourcesid;

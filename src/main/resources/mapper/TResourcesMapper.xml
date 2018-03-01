@@ -14,31 +14,31 @@
   </resultMap>
 
   <select id="getAll" resultType="com.example.graduation.pojo.TResources">
-    SELECT id,name,parentId,resUrl,type,sort
+    SELECT resourcesId,name,parentId,resUrl,type,sort
     FROM t_resources
     ORDER BY sort ASC
   </select>
 
   <select id="loadUserResources" parameterType="java.util.HashMap"
           resultType="com.example.graduation.pojo.TResources">
-    SELECT re.id,re.name,re.parentId,re.resUrl
+    SELECT re.resourcesId,re.name,re.parentId,re.resUrl
     FROM t_resources re LEFT JOIN t_role_resources rr
-    ON re.id = rr.resourcesId
+    ON re.resourcesId = rr.resourcesId
     LEFT JOIN t_user_role ur
     ON rr.roleId =ur.roleId
     WHERE ur.userId=#{userid}
     <if test="type != null">
       AND re.type= #{type}
     </if>
-    GROUP BY re.id
+    GROUP BY re.resourcesId
     ORDER BY re.sort ASC
   </select>
 
   <select id="queryResourcesListWithSelected" parameterType="int"
           resultType="com.example.graduation.pojo.TResources">
-    SELECT re.id,re.name,re.parentId,re.resUrl,re.type,
+    SELECT re.resourcesId,re.name,re.parentId,re.resUrl,re.type,
     (CASE WHEN EXISTS(SELECT 1
-    FROM t_role_resources rr WHERE rr.resourcesId=re.id AND rr.roleId=#{rid})
+    FROM t_role_resources rr WHERE rr.resourcesId=re.resourcesId AND rr.roleId=#{rid})
     THEN 'true' ELSE 'false' END) AS checked
     FROM t_resources re
     WHERE re.parentId !=0

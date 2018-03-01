@@ -1,7 +1,7 @@
 package com.example.graduation.shiro;
 
 import com.github.pagehelper.util.StringUtil;
-import com.example.graduation.pojo.Resources;
+import com.example.graduation.pojo.TResources;
 import com.example.graduation.service.ResourcesService;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.filter.mgt.DefaultFilterChainManager;
@@ -37,12 +37,12 @@ public class ShiroService {
         filterChainDefinitionMap.put("/img/**","anon");
         filterChainDefinitionMap.put("/plugins/**","anon");
         filterChainDefinitionMap.put("/font-awesome/**","anon");
-        List<Resources> resourcesList = resourcesService.getAll();
-        for(Resources resources:resourcesList){
+        List<TResources> resourcesList = resourcesService.getAll();
+        for(TResources resources:resourcesList){
 
-            if (StringUtil.isNotEmpty(resources.getResUrl())) {
-                String permission = "perms[" + resources.getResUrl()+ "]";
-                filterChainDefinitionMap.put(resources.getResUrl(),permission);
+            if (StringUtil.isNotEmpty(resources.getResurl())) {
+                String permission = "perms[" + resources.getResurl()+ "]";
+                filterChainDefinitionMap.put(resources.getResurl(),permission);
             }
         }
         filterChainDefinitionMap.put("/**", "authc");

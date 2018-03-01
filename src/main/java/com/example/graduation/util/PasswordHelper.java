@@ -1,6 +1,6 @@
 package com.example.graduation.util;
 
-import com.example.graduation.pojo.User;
+import com.example.graduation.pojo.TUser;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.util.ByteSource;
 
@@ -9,7 +9,7 @@ public class PasswordHelper {
 	private String algorithmName = "md5";
 	private int hashIterations = 2;
 
-	public void encryptPassword(User user) {
+	public void encryptPassword(TUser user) {
 		//String salt=randomNumberGenerator.nextBytes().toHex();
 		String newPassword = new SimpleHash(algorithmName, user.getPassword(),  ByteSource.Util.bytes(user.getUsername()), hashIterations).toHex();
 		//String newPassword = new SimpleHash(algorithmName, user.getPassword()).toHex();
@@ -18,7 +18,7 @@ public class PasswordHelper {
 	}
 	public static void main(String[] args) {
 		PasswordHelper passwordHelper = new PasswordHelper();
-		User user = new User();
+		TUser user = new TUser();
 		user.setUsername("admin");
 			user.setPassword("admin");
 		passwordHelper.encryptPassword(user);

@@ -1,7 +1,7 @@
 package com.example.graduation.shiro;
 
-import com.example.graduation.pojo.Resources;
-import com.example.graduation.pojo.User;
+import com.example.graduation.pojo.TResources;
+import com.example.graduation.pojo.TUser;
 import com.example.graduation.service.ResourcesService;
 import com.example.graduation.service.UserService;
 import org.apache.shiro.SecurityUtils;
@@ -38,14 +38,14 @@ public class MyShiroRealm extends AuthorizingRealm {
     //授权
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        User user= (User) SecurityUtils.getSubject().getPrincipal();//User{id=1, username='admin', password='3ef7164d1f6167cb9f2658c07d3c2f0a', enable=1}
+        TUser user= (TUser) SecurityUtils.getSubject().getPrincipal();//TUser{id=1, username='admin', password='3ef7164d1f6167cb9f2658c07d3c2f0a', enable=1}
         Map<String,Object> map = new HashMap<String,Object>();
-        map.put("userid",user.getUserId());
-        List<Resources> resourcesList = resourcesService.loadUserResources(map);
+        map.put("userid",user.getUserid());
+        List<TResources> resourcesList = resourcesService.loadUserResources(map);
         // 权限信息对象info,用来存放查出的用户的所有的角色（role）及权限（permission）
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-        for(Resources resources: resourcesList){
-            info.addStringPermission(resources.getResUrl());
+        for(TResources resources: resourcesList){
+            info.addStringPermission(resources.getResurl());
         }
         return info;
     }
@@ -55,7 +55,7 @@ public class MyShiroRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         //获取用户的输入的账号.
         String username = (String)token.getPrincipal();
-        User user = userService.selectByUsername(username);
+        TUser user = userService.selectByUsername(username);
         if(user==null) throw new UnknownAccountException();
         if ("0".equals(user.getEnable())) {
             throw new LockedAccountException(); // 帐号锁定
@@ -69,7 +69,7 @@ public class MyShiroRealm extends AuthorizingRealm {
         // 当验证都通过后，把用户信息放在session里
         Session session = SecurityUtils.getSubject().getSession();
         session.setAttribute("userSession", user);
-        session.setAttribute("userSessionId", user.getUserId());
+        session.setAttribute("userSessionId", user.getUserid());
         return authenticationInfo;
     }
 
@@ -92,11 +92,11 @@ public class MyShiroRealm extends AuthorizingRealm {
                 SimplePrincipalCollection spc = (SimplePrincipalCollection)obj;
                 //判断用户，匹配用户ID。
                 obj = spc.getPrimaryPrincipal();
-                if(null != obj && obj instanceof User){
-                    User user = (User) obj;
+                if(null != obj && obj instanceof TUser){
+                    TUser user = (TUser) obj;
                     System.out.println("user:"+user);
                     //比较用户ID，符合即加入集合
-                    if(null != user && userIds.contains(user.getUserId())){
+                    if(null != user && userIds.contains(user.getUserid())){
                         list.add(spc);
                     }
                 }
