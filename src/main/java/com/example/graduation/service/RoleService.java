@@ -5,6 +5,9 @@ import com.example.graduation.pojo.TRole;
 
 import java.util.List;
 
+/**
+ * 角色表
+ */
 public interface RoleService extends IService<TRole> {
 
     List<TRole> queryRoleListWithSelected(Integer uid);

@@ -13,6 +13,17 @@ public class TRole implements Serializable {
     @Column(name = "roleDes")
     private String roledes;
 
+    @Transient
+    private Integer selected;
+
+    public Integer getSelected() {
+        return selected;
+    }
+
+    public void setSelected(Integer selected) {
+        this.selected = selected;
+    }
+
     /**
      * @return roleId
      */

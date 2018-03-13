@@ -73,8 +73,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" onclick="saveRoleResources();" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" onclick="saveRoleResources();" class="btn btn-primary">保存</button>
             </div>
         </div>
     </div>
@@ -94,13 +94,13 @@
                 <form id="roleForm">
                     <div class="form-group">
                         <label class="control-label">角色名称:</label>
-                        <input type="text" class="form-control" name="roledesc" id="roleDesc" placeholder="请输入角色名称"/>
+                        <input type="text" class="form-control" name="roledes" id="roleDesc" placeholder="请输入角色名称"/>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" onclick="addRole();" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" onclick="addRole();" class="btn btn-primary">保存</button>
             </div>
         </div>
     </div>
@@ -140,14 +140,14 @@
             "columns": [
                 {
                     "sClass": "text-center",
-                    "data": "id",
+                    "data": "roleid",
                     "render": function (data, type, full, meta) {
                         return '<input type="checkbox"  class="checkchild"  value="' + data + '" />';
                     },
                     "bSortable": false
                 },
-                { "data": "id" },
-                { "data": "roledesc" },
+                { "data": "roleid" },
+                { "data": "roledes" },
             ],
             columnDefs:[
                 { "orderable": false, "targets": 1 },
@@ -164,7 +164,7 @@
         table.ajax.reload();
     }
     //弹出选择角色的框
-    var roleId;
+    var roleid;
     function allotResources(){
         var rid = $(".checkchild:checked").val();
         if ($(".checkchild:checked").length < 1)
@@ -177,7 +177,7 @@
             layer.msg('一次只能修改一条数据');
             return;
         }
-        roleId = rid;
+        roleid = rid;
         var setting = {
             check: {
                 enable: true,
@@ -186,7 +186,7 @@
             data: {
                 simpleData: {
                     enable: true,
-                    idKey: "id",
+                    idKey: "roleid",
                     pIdKey: "parentid",
                 }
             }
@@ -215,12 +215,12 @@
                 checkNode= zTree.getCheckedNodes(true);
         var ids = new Array();
         for(var i=0;i<checkNode.length;i++){
-            ids.push(checkNode[i].id);
+            ids.push(checkNode[i].resourcesid);
         }
         $.ajax({
             async:false,
             type : "POST",
-            data:{roleid:roleId,resourcesid:ids.join(",")},
+            data:{roleid:roleid,resourcesid:ids.join(",")},
             url: "roles/saveRoleResources",
             success: function(data){
                 if(data=="success"){
@@ -281,7 +281,7 @@
                 cache: true,
                 type: "POST",
                 url:'roles/delete',
-                data:{id:id},
+                data:{roleid:id},
                 async: false,
                 success: function(data) {
                     if(data=="success"){

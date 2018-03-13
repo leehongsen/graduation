@@ -50,7 +50,5 @@ public class RoleResourcesServiceImpl extends BaseService<TRoleResources> implem
         List<Integer> userIds= userRoleMapper.findUserIdByRoleId(roleResources.getRoleid());
         //更新当前登录的用户的权限缓存
         myShiroRealm.clearUserAuthByUserId(userIds);
-
-
     }
 }

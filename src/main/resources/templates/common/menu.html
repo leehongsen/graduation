@@ -7,6 +7,7 @@
     </ul>
 </div>
     <script th:src="@{/js/jquery-1.11.2.min.js}"></script>
+    <script th:src="@{/js/getLocalHost.js}"></script>
     <script type="text/javascript">
     $.ajax({
         cache: true,
@@ -16,7 +17,7 @@
         success: function(data) {
             var html="";
             for(var i=0;i<data.length;i++){
-                html+="<li><a href='"+data[i].resurl+"'><i class='icon icon-home'></i> <span>"+data[i].name+"</span></a> </li>"
+                html+="<li><a href='"+getContextPath()+data[i].resurl+"'><i class='icon icon-home'></i> <span>"+data[i].name+"</span></a> </li>"
              }
             $("#menu").append(html);
             //改变当前菜单样式

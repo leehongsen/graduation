@@ -164,7 +164,7 @@
                     },
                     "bSortable": false
                 },
-                { "data": "id" },
+                { "data": "resourcesid" },
                 { "data": "name" },
                 { "data": "parentid" },
                 { "data": "resurl" },
@@ -268,7 +268,7 @@
                 cache: true,
                 type: "POST",
                 url:'resources/delete',
-                data:{id:id},
+                data:{resourcesid:id},
                 async: false,
                 success: function(data) {
                     if(data=="success"){

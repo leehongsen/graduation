@@ -22,6 +22,17 @@ public class TResources implements Serializable {
 
     private Integer sort;
 
+    @Transient
+    private String checked;//是否选中
+
+    public String getChecked() {
+        return checked;
+    }
+
+    public void setChecked(String checked) {
+        this.checked = checked;
+    }
+
     /**
      * @return resourcesId
      */

@@ -68,9 +68,9 @@ public class RoleAction {
     }
 
     @RequestMapping(value = "/delete")
-    public String delete(Integer id){
+    public String delete(Integer roleid){
         try{
-            roleService.delRole(id);
+            roleService.delRole(roleid);
             return "success";
         }catch (Exception e){
             e.printStackTrace();

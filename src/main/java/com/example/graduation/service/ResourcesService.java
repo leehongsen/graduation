@@ -6,6 +6,9 @@ import com.github.pagehelper.PageInfo;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 权限表
+ */
 public interface ResourcesService extends IService<TResources>{
     List<TResources> getAll();
 

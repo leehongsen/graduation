@@ -54,11 +54,11 @@ public class UserServiceImpl extends BaseService<TUser> implements UserService{
 
     @Transactional(propagation= Propagation.REQUIRED,readOnly=false,rollbackFor={Exception.class})
     public void delUser(Integer userid) {
-        //删除用户表
-        mapper.deleteByPrimaryKey(userid);
         //删除用户角色表
         TUserRole key=new TUserRole();
         key.setUserid(userid);
         userRoleMapper.deleteByPrimaryKey(key);
+        //删除用户表
+        mapper.deleteByPrimaryKey(userid);
     }
 }
