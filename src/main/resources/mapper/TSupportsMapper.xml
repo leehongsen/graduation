@@ -9,4 +9,15 @@
     <result column="description" jdbcType="VARCHAR" property="description" />
     <result column="pic" jdbcType="VARCHAR" property="pic" />
   </resultMap>
+
+  <select id="querySupportListWithSelected" parameterType="int"
+          resultType="com.example.graduation.pojo.TSupports">
+    SELECT r.pype,r.description,r.pic,
+    (CASE WHEN
+    (SELECT ur.roleId FROM t_businesses_supports ur
+    WHERE ur.businesses_id= #{id}
+    AND ur.supports_id = r.type)
+    THEN 1 ELSE 0 END) AS selected
+    FROM t_supports r
+  </select>
 </mapper>
