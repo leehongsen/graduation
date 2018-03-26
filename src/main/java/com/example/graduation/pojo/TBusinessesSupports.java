@@ -16,7 +16,7 @@ public class TBusinessesSupports implements Serializable {
      * 服务优惠id
      */
     @Column(name = "supports_id")
-    private Integer supportsId;
+    private String supportsId;
 
     /**
      * 获取商家id
@@ -32,8 +32,9 @@ public class TBusinessesSupports implements Serializable {
      *
      * @param businessesId 商家id
      */
-    public void setBusinessesId(Integer businessesId) {
+    public TBusinessesSupports setBusinessesId(Integer businessesId) {
         this.businessesId = businessesId;
+        return this;
     }
 
     /**
@@ -41,7 +42,7 @@ public class TBusinessesSupports implements Serializable {
      *
      * @return supports_id - 服务优惠id
      */
-    public Integer getSupportsId() {
+    public String getSupportsId() {
         return supportsId;
     }
 
@@ -50,7 +51,8 @@ public class TBusinessesSupports implements Serializable {
      *
      * @param supportsId 服务优惠id
      */
-    public void setSupportsId(Integer supportsId) {
+    public TBusinessesSupports setSupportsId(String supportsId) {
         this.supportsId = supportsId;
+        return this;
     }
 }

@@ -74,7 +74,7 @@ public class HomeAction {
     }
     /*控制页面跳转 end*/
 
-    @RequestMapping("/seller")
+    @RequestMapping("/sellerTest")
     @ResponseBody
     public Map<String,String> seller(HttpServletRequest request,HttpServletResponse response){
         String Origin=request.getHeader("Origin");

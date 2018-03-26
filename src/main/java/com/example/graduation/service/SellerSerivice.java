@@ -1,9 +1,8 @@
 package com.example.graduation.service;
 
 import com.example.graduation.pojo.TBusinesses;
+import com.github.pagehelper.PageInfo;
 
-import java.util.List;
-import java.util.Map;
 
 /**
  * 商家表
@@ -14,4 +13,8 @@ public interface SellerSerivice extends IService<TBusinesses> {
      * @param id
      */
     void delSeller(Integer id);
+
+    PageInfo<TBusinesses> selectByPage(TBusinesses seller, int start, int length);
+
+    TBusinesses selectByName(String name);
 }

@@ -30,7 +30,7 @@ public class UserServiceImpl extends BaseService<TUser> implements UserService{
             criteria.andLike("username", "%" + user.getUsername() + "%");
         }
         if (user.getUserid() != null) {
-            criteria.andEqualTo("id", user.getUserid());
+            criteria.andEqualTo("userid", user.getUserid());
         }
         if (StringUtil.isNotEmpty(user.getEnable())) {
             criteria.andEqualTo("enable", user.getEnable());
@@ -57,7 +57,10 @@ public class UserServiceImpl extends BaseService<TUser> implements UserService{
         //删除用户角色表
         TUserRole key=new TUserRole();
         key.setUserid(userid);
-        userRoleMapper.deleteByPrimaryKey(key);
+        Example example = new Example(TUser.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("userid",userid);
+        userRoleMapper.deleteByExample(example);
         //删除用户表
         mapper.deleteByPrimaryKey(userid);
     }

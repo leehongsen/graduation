@@ -22,6 +22,17 @@ public class TSupports implements Serializable {
      */
     private String pic;
 
+    @Transient
+    private Integer selected;
+
+    public Integer getSelected() {
+        return selected;
+    }
+
+    public void setSelected(Integer selected) {
+        this.selected = selected;
+    }
+
     /**
      * 获取类型
      *
