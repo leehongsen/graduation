@@ -22,6 +22,7 @@ public class ResourcesServiceImpl extends BaseService<TResources> implements Res
     public PageInfo<TResources> selectByPage(TResources resources, int start, int length) {
         int page = start/length+1;
         Example example = new Example(TResources.class);
+        example.orderBy("sort");
         //分页查询
         PageHelper.startPage(page, length);
         List<TResources> userList = selectByExample(example);

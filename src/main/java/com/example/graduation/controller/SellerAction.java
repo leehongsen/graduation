@@ -68,7 +68,7 @@ public class SellerAction {
      *  	  此处获取的参数的角色id是以 “,” 分隔的字符串
      * @return
      */
-    @RequestMapping("/saveUserRoles")
+    @RequestMapping("/saveBusinessesSupports")
     public String saveBusinessesSupports(TBusinessesSupports businessesSupports){
         if(StringUtils.isEmpty(businessesSupports.getBusinessesId()))
             return "error";
@@ -84,5 +84,21 @@ public class SellerAction {
     @RequestMapping("/getGoods")
     public List<TGoods> getGoods(Integer id){
         return goodsService.getGoodsBySeller(id);
+    }
+
+    @RequestMapping("/getOne")
+    public TBusinesses getOne(Integer id){
+        return sellerSerivice.selectByKey(id);
+    }
+
+    @RequestMapping("/update")
+    public String update(TBusinesses tBusinesses){
+        try{
+            sellerSerivice.update(tBusinesses);
+            return "success";
+        }catch (Exception e){
+            e.printStackTrace();
+            return "fail";
+        }
     }
 }

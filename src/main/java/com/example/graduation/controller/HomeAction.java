@@ -68,6 +68,21 @@ public class HomeAction {
         return "resources/resources";
     }
 
+    @RequestMapping("/sellerPage")
+    public String sellerPage(){
+        return "seller/seller";
+    }
+
+    @RequestMapping("/orderPage")
+    public String orderPage(){
+        return "order/order";
+    }
+
+    @RequestMapping("/goodsPage")
+    public String goodsPage(){
+        return "goods/goods";
+    }
+
     @RequestMapping("/403")
     public String forbidden(){
         return "403";

@@ -12,9 +12,9 @@
 
   <select id="querySupportListWithSelected" parameterType="int"
           resultType="com.example.graduation.pojo.TSupports">
-    SELECT r.pype,r.description,r.pic,
+    SELECT r.type,r.description,r.pic,
     (CASE WHEN
-    (SELECT ur.roleId FROM t_businesses_supports ur
+    (SELECT ur.businesses_id FROM t_businesses_supports ur
     WHERE ur.businesses_id= #{id}
     AND ur.supports_id = r.type)
     THEN 1 ELSE 0 END) AS selected

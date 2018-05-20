@@ -65,7 +65,7 @@ public class SellerServiceImpl extends BaseService<TBusinesses> implements Selle
     @Override
     public PageInfo<TBusinesses> selectByPage(TBusinesses seller, int start, int length) {
         int page = start/length+1;
-        Example example = new Example(TUser.class);
+        Example example = new Example(TBusinesses.class);
         Example.Criteria criteria = example.createCriteria();
         if (StringUtil.isNotEmpty(seller.getName())) {
             criteria.andLike("name", "%" + seller.getName() + "%");
@@ -91,4 +91,5 @@ public class SellerServiceImpl extends BaseService<TBusinesses> implements Selle
         }
         return null;
     }
+
 }

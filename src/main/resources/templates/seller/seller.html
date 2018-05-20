@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/jquery.dataTables.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/matrix-style.css}" />
+    <link rel="stylesheet" th:href="@{/css/matrix-media.css}" />
+    <link rel="stylesheet" th:href="@{/css/metroStyle.css}" type="text/css">
+    <link th:href="@{/font-awesome/css/font-awesome.css}" rel="stylesheet" />
+    <title>卖家管理</title>
+</head>
+<body>
+
+<!--Header-part-->
+<div id="header">
+    <h1><a href="dashboard.html">Matrix Admin</a></h1>
+</div>
+<!--close-Header-part-->
+
+<!--top-Header-menu-->
+<div th:include="common/top :: top"></div>
+<div th:include="common/menu :: menu"></div>
+<div id="content">
+    <div id="content-header">
+        <div id="breadcrumb"> <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 主页</a> <a href="#" class="current">卖家管理</a> </div>
+    </div>
+    <div class="container-fluid">
+        <hr>
+        <div class="row-fluid">
+            <div class="span12">
+
+                <div class="widget-box">
+                    <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
+                        <h5>卖家列表</h5>
+                    </div>
+                    <form class="form-inline">
+                        <button type="button" shiro:hasPermission="/seller/add" onclick="$('#addSeller').modal();" class="btn btn-info" style="float: right; margin-right: 1px;">新增</button>
+                        <button type="button" shiro:hasPermission="/seller/delete" onclick="delById();" class="btn btn-info" style="float: right; margin-right: 1px;">删除</button>
+                        <button type="button" shiro:hasPermission="/seller/details" onclick="detById();" class="btn btn-info" style="float: right; margin-right: 1px;">详情</button>
+                        <button type="button" shiro:hasPermission="/seller/saveBusinessesSupports" onclick="allotSupports();" class="btn btn-info" style="float: right; margin-right: 1px;">分配优惠服务</button>
+                    </form>
+                    <div class="widget-content nopadding">
+                        <table class="table table-bordered data-table" id="datatable" >
+                            <thead>
+                            <tr>
+                                <th>
+                                    <input type="checkbox" class="checkall" />
+                                </th>
+                                <th>卖家编号</th>
+                                <th>卖家名称</th>
+                                <th>营业额</th>
+                                <th>商家电话</th>
+                                <th>商家地址</th>
+                                <th>营业时间</th>
+                                <th>商家菜品品类</th>
+                                <!--<th>头像</th>-->
+                                <!--<th>描述</th>-->
+                                <!--<th>到达时间</th>-->
+                                <!--<th>综合分数</th>-->
+                                <!--<th>服务态度</th>-->
+                                <!--<th>商品评分</th>-->
+                                <!--<th>排行</th>-->
+                                <!--<th>起送价</th>-->
+                                <!--<th>商家配送费</th>-->
+                                <!--<th>全部评价</th>-->
+                                <!--<th>月售单数</th>-->
+                                <!--<th>公告</th>-->
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%--弹框--%>
+<div class="modal fade bs-example-modal-sm"  id="selectSupports" tabindex="-1" role="dialog" aria-labelledby="selectSellerLabel">
+    <div class="modal-dialog modal-sm" role="document" style="height: 600px; "  >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="selectSellerLabel">设置优惠活动</h4>
+            </div>
+            <div class="modal-body">
+                <form id="boxSellerForm" >
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" onclick="saveBusinessesSupports();" class="btn btn-primary">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+<%----/弹框--%>
+
+<!--查看详情弹框-->
+<div class="modal fade" id="detByIdInTime" tabindex="-1" role="dialog" aria-labelledby="addroleLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="detByIdName">详细信息</h4>
+            </div>
+            <div class="modal-body">
+                <form id="sellerForm">
+                    <div class="form-group">
+                        <label class="control-label">卖家id:</label>
+                        <input type="text" class="form-control" name="id"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">卖家名称:</label>
+                        <input type="text" class="form-control" name="name" id="sellerNameImpl" placeholder="请输入卖家名称"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">卖家电话:</label>
+                        <input type="text" class="form-control" name="phone" placeholder="请输入卖家电话"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">营业额:</label>
+                        <input type="text" class="form-control" name="turnover" placeholder="请输入卖家营业额"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">卖家地址:</label>
+                        <input type="text" class="form-control" name="address" placeholder="请输入卖家地址"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">营业时间:</label>
+                        <input type="text" class="form-control" name="time" placeholder="请输入营业时间"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">商品菜品分类:</label>
+                        <input type="text" class="form-control" name="sort" placeholder="请输入菜品分类"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">头像:</label>
+                        <input type="text" class="form-control" name="avatar" placeholder="请输头像url"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">描述:</label>
+                        <input type="text" class="form-control" name="description" placeholder="默认无"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">到达时间:</label>
+                        <input type="text" class="form-control" name="deliverytime"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">综合分数:</label>
+                        <input type="text" class="form-control" name="score"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">服务态度:</label>
+                        <input type="text" class="form-control" name="servicescore"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">商品评分:</label>
+                        <input type="text" class="form-control" name="foodscore"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">排行:</label>
+                        <input type="text" class="form-control" name="rankrate"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">起送价:</label>
+                        <input type="text" class="form-control" name="minprice" placeholder="请输入卖家起送价"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">商家配送费:</label>
+                        <input type="text" class="form-control" name="deliveryprice" placeholder="请输入卖家配送费"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">月销售单数:</label>
+                        <input type="text" class="form-control" name="sellcount"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">公告:</label>
+                        <input type="text" class="form-control" name="bulletin" placeholder="默认无"/>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">确定</button>
+                <button type="button" onclick="setSeller();" class="btn btn-primary">编辑</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--查看详情弹框 end-->
+
+
+<!--添加弹框-->
+<div class="modal fade" id="addSeller" tabindex="-1" role="dialog" aria-labelledby="addroleLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="addroleLabel">添加卖家</h4>
+            </div>
+            <div class="modal-body">
+                <form id="roleForm">
+                    <div class="form-group">
+                        <label class="control-label">卖家名称:</label>
+                        <input type="text" class="form-control" name="name" id="sellername" placeholder="请输入卖家名称"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">卖家电话:</label>
+                        <input type="text" class="form-control" name="phone" placeholder="请输入卖家电话"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">卖家地址:</label>
+                        <input type="text" class="form-control" name="address" placeholder="请输入卖家地址"/>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" onclick="addSeller();" class="btn btn-primary">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--/添加弹框-->
+
+
+
+<!--Footer-part-->
+<div class="row-fluid">
+    <div id="footer" class="span12"> 2017 &copy; yqj <a href="http://themedesigner.in/">Themedesigner.in</a> </div>
+</div>
+<!--end-Footer-part-->
+<script type="text/javascript" th:src="@{/js/jquery-1.11.2.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/jquery.dataTables.min.js}"></script>
+<script th:src="@{/js/layer.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.ztree.core.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.ztree.excheck.js}"></script>
+
+<script type="text/javascript">
+    $(".checkall").click(function () {
+        var check = $(this).prop("checked");
+        $(".checkchild").prop("checked", check);
+    });
+    var table;
+    $(document).ready(function() {
+        table = $('#datatable').DataTable( {
+            "dom": '<"top"i>rt<"bottom"flp><"clear">',
+            "searching" : false,
+            "bJQueryUI": true,
+            "sPaginationType": "full_numbers",
+            "serverSide": true,//开启服务器模式，使用服务器端处理配置datatable
+            "processing": true,//开启读取服务器数据时显示正在加载中……特别是大数据量的时候，开启此功能比较好
+
+            "ajax": 'seller',
+            "columns": [
+                {
+                    "sClass": "text-center",
+                    "data": "id",
+                    "render": function (data, type, full, meta) {
+                        return '<input type="checkbox"  class="checkchild"  value="' + data + '" />';
+                    },
+                    "bSortable": false
+                },
+                { "data": "id" },
+                { "data": "name" },
+                { "data": "turnover" },
+                { "data": "phone" },
+                { "data": "address" },
+                { "data": "time" },
+                { "data": "sort" },
+//                { "data": "avatar" },
+//                { "data": "description" },
+//                { "data": "deliverytime" },
+//                { "data": "score" },
+//                { "data": "servicescore" },
+//                { "data": "foodscore" },
+//                { "data": "rankrate" },
+//                { "data": "minprice" },
+//                { "data": "deliveryprice" },
+//                { "data": "ratingcount" },
+//                { "data": "sellcount" },
+//                { "data": "bulletin" }
+            ],
+            columnDefs:[
+                { "orderable": false, "targets": 1 },
+                { "orderable": false, "targets": 2 },
+            ],
+
+        } );
+
+
+
+    } );
+
+    function search(){
+        table.ajax.reload();
+    }
+    //弹出选择卖家的框
+    function allotSupports(){
+        var rid = $(".checkchild:checked").val();
+        if ($(".checkchild:checked").length < 1)
+        {
+            layer.msg('请选择一条数据');
+            return;
+        }
+        if ($(".checkchild:checked").length > 1)
+        {
+            layer.msg('一次只能修改一条数据');
+            return;
+        }
+
+        $.ajax({
+            async:false,
+            type : "POST",
+            data:{id:rid},
+            url: "support/supportsWithSelected",
+            dataType:'json',
+            success: function(data){
+                $("#boxSellerForm").empty();
+                var htm = "<input type='hidden' name='rid' value='"+rid+"'>";
+                for(var i=0;i<data.length;i++){
+                    htm += "<div class='checkbox'><label><input type='checkbox' name='type' value='"+data[i].type+"'";
+                    if(data[i].selected==1){
+                        htm += " checked='checked'";
+                    }
+                    htm +="/>"+data[i].description+"</label></div>";
+                }
+                $("#boxSellerForm").append(htm);
+            }
+
+        });
+        $('#selectSupports').modal();
+    }
+
+    //保存的选择
+    function saveBusinessesSupports() {
+        var businessesId =  $("#boxSellerForm input[name='rid']").val();
+        var ids = $("#boxSellerForm input[type=checkbox]:checked");
+        var supportsid = "";
+        for(var i=0; i<ids.length; i++){
+            supportsid+=ids[i].value+','; //如果选中，将value添加到变量s中
+        }
+        supportsid = supportsid.substring(0,supportsid.length-1)
+        $.ajax({
+            cache: true,
+            type: "POST",
+            url:'seller/saveBusinessesSupports',
+            data:{
+                businessesId:businessesId,
+                supportsId:supportsid
+            },// 你的formid
+            async: false,
+            success: function(data) {
+                if(data=="success"){
+                    layer.msg('保存成功');
+                    $('#selectSupports').modal('hide');
+                }else{
+                    layer.msg('保存失败');
+                    $('#selectSupports').modal('hide');
+                }
+            }
+        })
+    }
+
+
+    //添加用户
+    function addSeller() {
+        var sellername = $("#sellername").val();
+        if(sellername == "" || sellername == undefined || sellername == null){
+            return layer.msg('卖家名称不能为空', function(){
+                //关闭后的操作
+            });
+        }
+
+        $.ajax({
+            cache: true,
+            type: "POST",
+            url:'seller/add',
+            data:$('#roleForm').serialize(),// 你的formid
+            async: false,
+            success: function(data) {
+                if(data=="success"){
+                    layer.msg('保存成功');
+                    table.ajax.reload();
+                    $('#addSeller').modal('hide');
+                } else {
+                    layer.msg('保存失败');
+                    $('#addSeller').modal('hide');
+                }
+            }
+        });
+    }
+
+    /*查看详情功能*/
+    function detById() {
+        var id = $(".checkchild:checked").val();
+        if ($(".checkchild:checked").length < 1)
+        {
+            layer.msg('请选择一条数据');
+            return;
+        }
+        if ($(".checkchild:checked").length > 1)
+        {
+            layer.msg('一次只能修改一条数据');
+            return;
+        }
+        $.ajax({
+            cache: true,
+            type: "POST",
+            url:'seller/getOne',
+            data:{id:id},// 你的formid
+            async: false,
+            success: function(data) {
+                if(data.id != ""){
+                    for ( var key in data) {
+                        //通过遍历对象属性的方法，遍历键值对，获得key，然后通过 对象[key]获得对应的值
+                        var name = key;
+                        var value = data[key];
+                        $("input[name='"+name+"']").val(value);
+                    }
+                    $('#detByIdInTime').modal();
+                }else{
+                    layer.msg('查询失败');
+                    $('#detByIdInTime').modal('hide');
+                }
+            }
+        });
+    }
+
+    /*编辑功能*/
+    function setSeller(){
+        $.ajax({
+            cache: true,
+            type: "POST",
+            url:'seller/update',
+            data:$('#sellerForm').serialize(),// 你的formid
+            async: false,
+            success: function(data) {
+                if(data=="success"){
+                    layer.msg('修改成功');
+                    $('#detByIdInTime').modal('hide');
+                    for(var key in obj){
+                        $("input[name='"+key+"']").val();
+                    }
+                }else{
+                    layer.msg('修改失败');
+                    $('#detByIdInTime').modal('hide');
+                }
+            }
+        });
+    }
+
+    /*删除功能*/
+    function delById() {
+        var id = $(".checkchild:checked").val();
+        if ($(".checkchild:checked").length < 1)
+        {
+            layer.msg('请选择一条数据');
+            return;
+        }
+        if ($(".checkchild:checked").length > 1)
+        {
+            layer.msg('一次只能修改一条数据');
+            return;
+        }
+        layer.confirm('您确定要删除该卖家吗？', {
+            btn: ['确认','取消'] //按钮
+        }, function(){
+            $.ajax({
+                cache: true,
+                type: "POST",
+                url:'seller/delete',
+                data:{id:id},
+                async: false,
+                success: function(data) {
+                    if(data=="success"){
+                        layer.msg('删除成功');
+                        table.ajax.reload();
+                    }else{
+                        layer.msg('删除失败');
+                    }
+                }
+            });
+        });
+
+
+    }
+</script>
+
+</body>
+</html>
