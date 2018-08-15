@@ -78,6 +78,16 @@ public class HomeAction {
         return "order/order";
     }
 
+    @RequestMapping("/foodsPage")
+    public String foodsPage(){
+        return "foods/foods";
+    }
+
+    @RequestMapping("/ratingsPage")
+    public String ratingsPage(){
+        return "ratings/ratings";
+    }
+
     @RequestMapping("/goodsPage")
     public String goodsPage(){
         return "goods/goods";

@@ -62,6 +62,9 @@ public class TFoods implements Serializable {
      */
     private String image;
 
+    @Transient
+    private Integer selected;
+
     /**
      * 获取食物编号
      *
@@ -240,5 +243,23 @@ public class TFoods implements Serializable {
      */
     public void setImage(String image) {
         this.image = image;
+    }
+
+    /**
+     * 获取食物编号
+     *
+     * @return 选择
+     */
+    public Integer getSelected() {
+        return selected;
+    }
+
+    /**
+     * 设置食物编号
+     *
+     * @param  选择
+     */
+    public void setSelected(Integer selected) {
+        this.selected = selected;
     }
 }

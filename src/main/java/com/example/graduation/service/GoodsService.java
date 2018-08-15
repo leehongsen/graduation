@@ -1,6 +1,7 @@
 package com.example.graduation.service;
 
 import com.example.graduation.pojo.TGoods;
+import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
@@ -14,4 +15,9 @@ public interface GoodsService extends IService<TGoods> {
      * @return
      */
     List<TGoods> getGoodsBySeller(Integer id);
+
+    void delGoods(Integer id);
+
+    PageInfo<TGoods> selectByPage(TGoods seller, int start, int length);
+
 }

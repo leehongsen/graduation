@@ -1,6 +1,8 @@
 package com.example.graduation.service;
 
 import com.example.graduation.pojo.TFoods;
+import com.example.graduation.pojo.TGoods;
+import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
@@ -21,4 +23,14 @@ public interface FoodsService extends IService<TFoods> {
      * @return
      */
     List<TFoods> getFoodsByGoods(Integer id);
+
+    /**
+     * 获取选择的食物
+     * @param sellerId
+     * @param goodsId
+     * @return
+     */
+    List<TFoods> queryFoodsListWithSelected(Integer sellerId,Integer goodsId);
+
+    PageInfo<TFoods> selectByPage(TFoods seller, int start, int length);
 }
